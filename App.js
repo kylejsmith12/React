@@ -1,4 +1,4 @@
-// App.jsx
+// src/App.jsx
 
 import React, { useState } from "react";
 import {
@@ -85,15 +85,39 @@ const App = () => {
     setNotification(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:5000/api/submitForm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          gender,
+          age,
+          country,
+          bio,
+          selectedDate,
+          notification,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitting(false);
+        setSnackbarOpen(true);
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
       setIsSubmitting(false);
-      setSnackbarOpen(true);
-    }, 2000);
+    }
   };
 
   const handleSnackbarClose = () => {

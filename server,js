@@ -1,0 +1,28 @@
+// backend/server.js
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const app = express();
+const port = 5000; // Choose any available port
+
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
+
+// Your API endpoint for form submission
+app.post('/api/submitForm', (req, res) => {
+  // Access form data in req.body
+  console.log('Received form data:', req.body);
+
+  // Simulate processing
+  setTimeout(() => {
+    res.json({ success: true, message: 'Form submitted successfully!' });
+  }, 2000);
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
